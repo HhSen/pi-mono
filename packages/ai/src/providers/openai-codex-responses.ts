@@ -257,7 +257,11 @@ export const streamOpenAICodexResponses: StreamFunction<"openai-codex-responses"
 				throw new Error("Request was aborted");
 			}
 
-			stream.push({ type: "done", reason: output.stopReason as "stop" | "length" | "toolUse", message: output });
+			stream.push({
+				type: "done",
+				reason: output.stopReason as "stop" | "length" | "toolUse",
+				message: output,
+			});
 			stream.end();
 		} catch (error) {
 			output.stopReason = options?.signal?.aborted ? "aborted" : "error";
@@ -590,7 +594,10 @@ async function acquireWebSocket(
 	headers: Headers,
 	sessionId: string | undefined,
 	signal?: AbortSignal,
-): Promise<{ socket: WebSocketLike; release: (options?: { keep?: boolean }) => void }> {
+): Promise<{
+	socket: WebSocketLike;
+	release: (options?: { keep?: boolean }) => void;
+}> {
 	if (!sessionId) {
 		const socket = await connectWebSocket(url, headers, signal);
 		return {
@@ -829,7 +836,13 @@ async function parseErrorResponse(response: Response): Promise<{ message: string
 
 	try {
 		const parsed = JSON.parse(raw) as {
-			error?: { code?: string; type?: string; message?: string; plan_type?: string; resets_at?: number };
+			error?: {
+				code?: string;
+				type?: string;
+				message?: string;
+				plan_type?: string;
+				resets_at?: number;
+			};
 		};
 		const err = parsed?.error;
 		if (err) {

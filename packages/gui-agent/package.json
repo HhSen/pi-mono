@@ -1,0 +1,50 @@
+{
+  "name": "pi-generic-agent",
+  "version": "0.57.1",
+  "description": "Minimal generic agent built on pi-coding-agent SDK",
+  "type": "module",
+  "genericAgentConfig": {
+    "name": "generic-agent",
+    "configDir": ".generic-agent"
+  },
+  "bin": {
+    "generic-agent": "dist/cli.js"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "clean": "shx rm -rf dist",
+    "build": "npm run clean && tsc -p tsconfig.json",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --passWithNoTests",
+    "test:watch": "vitest --passWithNoTests",
+    "dev": "npx tsx src/cli.ts",
+    "start": "node dist/cli.js",
+    "prepack": "npm run build"
+  },
+  "dependencies": {
+    "@agent-infra/sandbox": "^1.0.12",
+    "@mariozechner/pi-agent-core": "^0.58.1",
+    "@mariozechner/pi-ai": "^0.58.1",
+    "@mariozechner/pi-coding-agent": "^0.58.1",
+    "@mariozechner/pi-tui": "^0.57.1",
+    "undici": "^7.19.1",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@types/node": "^24.12.0",
+    "shx": "^0.4.0",
+    "typescript": "^5.9.3",
+    "vitest": "^3.2.4"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=20.6.0"
+  }
+}

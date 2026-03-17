@@ -1,3 +1,79 @@
+# Pi Monorepo AI Context
+
+Updated: 2026-03-06T18:00:57+08:00
+
+## Vision
+- Pi Monorepo is a TypeScript workspace for building agentic products across CLI, terminal UI, browser UI, Slack automation, and self-hosted model infrastructure.
+- The core layering is: provider access in `packages/ai`, orchestration in `packages/agent`, user-facing products in `packages/coding-agent`, `packages/mom`, `packages/pods`, and presentation primitives in `packages/tui` and `packages/web-ui`.
+- Root context should stay concise; package-level `AGENTS.md` files carry the detailed local entry points, interfaces, tests, and deep-dive notes.
+
+## Workspace Map
+
+```mermaid
+flowchart TD
+    Root[pi-mono]
+    Root --> AI[packages/ai]
+    Root --> Agent[packages/agent]
+    Root --> Coding[packages/coding-agent]
+    Root --> Mom[packages/mom]
+    Root --> Pods[packages/pods]
+    Root --> TUI[packages/tui]
+    Root --> WebUI[packages/web-ui]
+    WebUI --> WebExample[packages/web-ui/example]
+    Coding --> ExtExamples[packages/coding-agent/examples/extensions]
+```
+
+## Architecture Overview
+
+```mermaid
+flowchart LR
+    AI[@mariozechner/pi-ai]
+    TUI[@mariozechner/pi-tui]
+    Agent[@mariozechner/pi-agent-core]
+    Coding[@mariozechner/pi-coding-agent]
+    Mom[@mariozechner/pi-mom]
+    Pods[@mariozechner/pi]
+    WebUI[@mariozechner/pi-web-ui]
+
+    Agent --> AI
+    Coding --> Agent
+    Coding --> AI
+    Coding --> TUI
+    Mom --> Coding
+    Mom --> Agent
+    Mom --> AI
+    Pods --> Agent
+    WebUI --> AI
+    WebUI --> TUI
+```
+
+## Module Index
+| Module | Purpose | Local context |
+| --- | --- | --- |
+| `packages/ai` | Unified streaming/model/provider layer for many LLM APIs | `packages/ai/AGENTS.md` |
+| `packages/agent` | Stateful agent loop and tool orchestration runtime | `packages/agent/AGENTS.md` |
+| `packages/coding-agent` | Main `pi` CLI, SDK, sessions, modes, extensions, prompts, themes | `packages/coding-agent/AGENTS.md` |
+| `packages/mom` | Slack bot wrapper around the coding agent runtime | `packages/mom/AGENTS.md` |
+| `packages/pods` | GPU pod and vLLM management CLI | `packages/pods/AGENTS.md` |
+| `packages/tui` | Differential-rendering terminal UI framework | `packages/tui/AGENTS.md` |
+| `packages/web-ui` | Browser chat components, storage, attachments, artifacts | `packages/web-ui/AGENTS.md` |
+
+## Global Standards
+- Preserve the existing package boundaries: provider abstractions in `ai`, agent logic in `agent`, product behavior in consumer packages.
+- Prefer top-level imports, strong typing, configurable keybindings, and package-local tests/docs over implicit behavior.
+- After source edits, run `npm run check`; do not run `npm run dev`, `npm run build`, or `npm test` from this repo unless explicitly required by project rules.
+- Never commit unless the user asks; when committing, stage only the files changed in the current session.
+- Treat package READMEs and changelogs as authoritative references for public behavior, release notes, and setup guidance.
+
+## Scan Status
+- Initialization strategy: lightweight repository census, medium package scan, then targeted supplementation on high-value paths only.
+- Estimated tracked files: `651`; direct file reads for this pass: `~18` files plus package directory listings; primary module coverage: `7/7`.
+- Skipped by default: `node_modules`, generated outputs, binary assets, and exhaustive file-by-file traversal of large trees such as `packages/coding-agent/src/core` and `packages/web-ui/src/components`.
+- Recommended next deep dives: `packages/coding-agent/src/core`, `packages/coding-agent/src/modes`, `packages/ai/src/providers`, `packages/web-ui/src/components`, `packages/mom/src/tools`, `packages/pods/src/commands`.
+- Re-run behavior: update this root index incrementally, preserve package-level notes, and extend only the modules or deep-dive paths that changed.
+
+---
+
 # Development Rules
 
 ## First Message

@@ -1,0 +1,8 @@
+{
+    "host": "0.0.0.0",
+    "port": 8080,
+    "defaultCwd": "/workspace",
+    "requestBodyLimit": "5mb",
+    "maxPromptChars": 200000,
+    "agentDir": "/workspace/.agent"
+}

@@ -1,0 +1,940 @@
+{
+  "source": "adb_uiautomator",
+  "node_count": 29,
+  "nodes": [
+    {
+      "index": 2,
+      "class_name": "android.widget.FrameLayout",
+      "resource_id": "android:id/content",
+      "text": "",
+      "content_desc": "",
+      "package": "com.google.android.apps.nexuslauncher",
+      "clickable": false,
+      "enabled": true,
+      "focused": false,
+      "selected": false,
+      "bounds_px": [
+        0,
+        0,
+        1080,
+        2400
+      ],
+      "center_px": [
+        540,
+        1200
+      ],
+      "bounds_rel": [
+        0,
+        0,
+        1000,
+        1000
+      ],
+      "center_rel": [
+        500,
+        500
+      ]
+    },
+    {
+      "index": 3,
+      "class_name": "android.widget.FrameLayout",
+      "resource_id": "com.google.android.apps.nexuslauncher:id/launcher",
+      "text": "",
+      "content_desc": "",
+      "package": "com.google.android.apps.nexuslauncher",
+      "clickable": false,
+      "enabled": true,
+      "focused": false,
+      "selected": false,
+      "bounds_px": [
+        0,
+        0,
+        1080,
+        2400
+      ],
+      "center_px": [
+        540,
+        1200
+      ],
+      "bounds_rel": [
+        0,
+        0,
+        1000,
+        1000
+      ],
+      "center_rel": [
+        500,
+        500
+      ]
+    },
+    {
+      "index": 4,
+      "class_name": "android.widget.FrameLayout",
+      "resource_id": "com.google.android.apps.nexuslauncher:id/drag_layer",
+      "text": "",
+      "content_desc": "",
+      "package": "com.google.android.apps.nexuslauncher",
+      "clickable": false,
+      "enabled": true,
+      "focused": false,
+      "selected": false,
+      "bounds_px": [
+        0,
+        0,
+        1080,
+        2400
+      ],
+      "center_px": [
+        540,
+        1200
+      ],
+      "bounds_rel": [
+        0,
+        0,
+        1000,
+        1000
+      ],
+      "center_rel": [
+        500,
+        500
+      ]
+    },
+    {
+      "index": 5,
+      "class_name": "android.view.View",
+      "resource_id": "com.google.android.apps.nexuslauncher:id/scrim_view",
+      "text": "",
+      "content_desc": "",
+      "package": "com.google.android.apps.nexuslauncher",
+      "clickable": false,
+      "enabled": true,
+      "focused": false,
+      "selected": false,
+      "bounds_px": [
+        0,
+        0,
+        1080,
+        2400
+      ],
+      "center_px": [
+        540,
+        1200
+      ],
+      "bounds_rel": [
+        0,
+        0,
+        1000,
+        1000
+      ],
+      "center_rel": [
+        500,
+        500
+      ]
+    },
+    {
+      "index": 6,
+      "class_name": "android.widget.ScrollView",
+      "resource_id": "com.google.android.apps.nexuslauncher:id/workspace",
+      "text": "",
+      "content_desc": "",
+      "package": "com.google.android.apps.nexuslauncher",
+      "clickable": false,
+      "enabled": true,
+      "focused": false,
+      "selected": false,
+      "bounds_px": [
+        0,
+        0,
+        1080,
+        2400
+      ],
+      "center_px": [
+        540,
+        1200
+      ],
+      "bounds_rel": [
+        0,
+        0,
+        1000,
+        1000
+      ],
+      "center_rel": [
+        500,
+        500
+      ]
+    },
+    {
+      "index": 9,
+      "class_name": "android.widget.FrameLayout",
+      "resource_id": "com.google.android.apps.nexuslauncher:id/search_container_workspace",
+      "text": "",
+      "content_desc": "",
+      "package": "com.google.android.apps.nexuslauncher",
+      "clickable": false,
+      "enabled": true,
+      "focused": false,
+      "selected": false,
+      "bounds_px": [
+        50,
+        93,
+        1030,
+        354
+      ],
+      "center_px": [
+        540,
+        223
+      ],
+      "bounds_rel": [
+        46,
+        38,
+        953,
+        147
+      ],
+      "center_rel": [
+        500,
+        92
+      ]
+    },
+    {
+      "index": 10,
+      "class_name": "android.widget.FrameLayout",
+      "resource_id": "com.google.android.apps.nexuslauncher:id/bc_smartspace_view",
+      "text": "",
+      "content_desc": "",
+      "package": "com.google.android.apps.nexuslauncher",
+      "clickable": false,
+      "enabled": true,
+      "focused": false,
+      "selected": false,
+      "bounds_px": [
+        50,
+        93,
+        1030,
+        354
+      ],
+      "center_px": [
+        540,
+        223
+      ],
+      "bounds_rel": [
+        46,
+        38,
+        953,
+        147
+      ],
+      "center_rel": [
+        500,
+        92
+      ]
+    },
+    {
+      "index": 11,
+      "class_name": "androidx.viewpager.widget.ViewPager",
+      "resource_id": "com.google.android.apps.nexuslauncher:id/smartspace_card_pager",
+      "text": "",
+      "content_desc": "At a glance",
+      "package": "com.google.android.apps.nexuslauncher",
+      "clickable": false,
+      "enabled": true,
+      "focused": false,
+      "selected": false,
+      "bounds_px": [
+        50,
+        93,
+        1030,
+        354
+      ],
+      "center_px": [
+        540,
+        223
+      ],
+      "bounds_rel": [
+        46,
+        38,
+        953,
+        147
+      ],
+      "center_rel": [
+        500,
+        92
+      ]
+    },
+    {
+      "index": 13,
+      "class_name": "android.view.ViewGroup",
+      "resource_id": "com.google.android.apps.nexuslauncher:id/base_template_card_with_date",
+      "text": "",
+      "content_desc": "",
+      "package": "com.google.android.apps.nexuslauncher",
+      "clickable": true,
+      "enabled": true,
+      "focused": false,
+      "selected": false,
+      "bounds_px": [
+        50,
+        93,
+        1030,
+        354
+      ],
+      "center_px": [
+        540,
+        223
+      ],
+      "bounds_rel": [
+        46,
+        38,
+        953,
+        147
+      ],
+      "center_rel": [
+        500,
+        92
+      ]
+    },
+    {
+      "index": 14,
+      "class_name": "android.view.ViewGroup",
+      "resource_id": "com.google.android.apps.nexuslauncher:id/text_group",
+      "text": "",
+      "content_desc": "",
+      "package": "com.google.android.apps.nexuslauncher",
+      "clickable": false,
+      "enabled": true,
+      "focused": false,
+      "selected": false,
+      "bounds_px": [
+        70,
+        197,
+        1011,
+        250
+      ],
+      "center_px": [
+        540,
+        223
+      ],
+      "bounds_rel": [
+        64,
+        82,
+        936,
+        104
+      ],
+      "center_rel": [
+        500,
+        92
+      ]
+    },
+    {
+      "index": 15,
+      "class_name": "android.widget.TextView",
+      "resource_id": "com.google.android.apps.nexuslauncher:id/date",
+      "text": "Tue, Mar 17",
+      "content_desc": "Tue, Mar 17",
+      "package": "com.google.android.apps.nexuslauncher",
+      "clickable": true,
+      "enabled": true,
+      "focused": false,
+      "selected": false,
+      "bounds_px": [
+        70,
+        197,
+        304,
+        250
+      ],
+      "center_px": [
+        187,
+        223
+      ],
+      "bounds_rel": [
+        64,
+        82,
+        281,
+        104
+      ],
+      "center_rel": [
+        173,
+        92
+      ]
+    },
+    {
+      "index": 16,
+      "class_name": "android.widget.TextView",
+      "resource_id": "",
+      "text": "Play Store",
+      "content_desc": "Play Store",
+      "package": "com.google.android.apps.nexuslauncher",
+      "clickable": true,
+      "enabled": true,
+      "focused": false,
+      "selected": false,
+      "bounds_px": [
+        50,
+        1548,
+        266,
+        1809
+      ],
+      "center_px": [
+        158,
+        1678
+      ],
+      "bounds_rel": [
+        46,
+        645,
+        246,
+        753
+      ],
+      "center_rel": [
+        146,
+        699
+      ]
+    },
+    {
+      "index": 17,
+      "class_name": "android.widget.TextView",
+      "resource_id": "",
+      "text": "Gmail",
+      "content_desc": "Gmail",
+      "package": "com.google.android.apps.nexuslauncher",
+      "clickable": true,
+      "enabled": true,
+      "focused": false,
+      "selected": false,
+      "bounds_px": [
+        305,
+        1548,
+        521,
+        1809
+      ],
+      "center_px": [
+        413,
+        1678
+      ],
+      "bounds_rel": [
+        282,
+        645,
+        482,
+        753
+      ],
+      "center_rel": [
+        382,
+        699
+      ]
+    },
+    {
+      "index": 18,
+      "class_name": "android.widget.TextView",
+      "resource_id": "",
+      "text": "Photos",
+      "content_desc": "Photos",
+      "package": "com.google.android.apps.nexuslauncher",
+      "clickable": true,
+      "enabled": true,
+      "focused": false,
+      "selected": false,
+      "bounds_px": [
+        560,
+        1548,
+        776,
+        1809
+      ],
+      "center_px": [
+        668,
+        1678
+      ],
+      "bounds_rel": [
+        518,
+        645,
+        718,
+        753
+      ],
+      "center_rel": [
+        618,
+        699
+      ]
+    },
+    {
+      "index": 19,
+      "class_name": "android.widget.TextView",
+      "resource_id": "",
+      "text": "YouTube",
+      "content_desc": "YouTube",
+      "package": "com.google.android.apps.nexuslauncher",
+      "clickable": true,
+      "enabled": true,
+      "focused": false,
+      "selected": false,
+      "bounds_px": [
+        815,
+        1548,
+        1030,
+        1809
+      ],
+      "center_px": [
+        922,
+        1678
+      ],
+      "bounds_rel": [
+        754,
+        645,
+        953,
+        753
+      ],
+      "center_rel": [
+        853,
+        699
+      ]
+    },
+    {
+      "index": 20,
+      "class_name": "android.view.View",
+      "resource_id": "com.google.android.apps.nexuslauncher:id/accessibility_action_view",
+      "text": "",
+      "content_desc": "Home",
+      "package": "com.google.android.apps.nexuslauncher",
+      "clickable": false,
+      "enabled": true,
+      "focused": false,
+      "selected": false,
+      "bounds_px": [
+        0,
+        63,
+        1080,
+        2337
+      ],
+      "center_px": [
+        540,
+        1200
+      ],
+      "bounds_rel": [
+        0,
+        26,
+        1000,
+        973
+      ],
+      "center_rel": [
+        500,
+        500
+      ]
+    },
+    {
+      "index": 21,
+      "class_name": "android.widget.LinearLayout",
+      "resource_id": "com.google.android.apps.nexuslauncher:id/page_indicator_container",
+      "text": "",
+      "content_desc": "",
+      "package": "com.google.android.apps.nexuslauncher",
+      "clickable": false,
+      "enabled": true,
+      "focused": false,
+      "selected": false,
+      "bounds_px": [
+        0,
+        1842,
+        1080,
+        1905
+      ],
+      "center_px": [
+        540,
+        1873
+      ],
+      "bounds_rel": [
+        0,
+        767,
+        1000,
+        793
+      ],
+      "center_rel": [
+        500,
+        780
+      ]
+    },
+    {
+      "index": 22,
+      "class_name": "android.view.View",
+      "resource_id": "com.google.android.apps.nexuslauncher:id/page_indicator",
+      "text": "",
+      "content_desc": "",
+      "package": "com.google.android.apps.nexuslauncher",
+      "clickable": false,
+      "enabled": true,
+      "focused": false,
+      "selected": false,
+      "bounds_px": [
+        524,
+        1858,
+        555,
+        1889
+      ],
+      "center_px": [
+        539,
+        1873
+      ],
+      "bounds_rel": [
+        485,
+        774,
+        513,
+        787
+      ],
+      "center_rel": [
+        499,
+        780
+      ]
+    },
+    {
+      "index": 23,
+      "class_name": "android.widget.FrameLayout",
+      "resource_id": "com.google.android.apps.nexuslauncher:id/overview_actions_view",
+      "text": "",
+      "content_desc": "",
+      "package": "com.google.android.apps.nexuslauncher",
+      "clickable": false,
+      "enabled": true,
+      "focused": false,
+      "selected": false,
+      "bounds_px": [
+        0,
+        1889,
+        1080,
+        2400
+      ],
+      "center_px": [
+        540,
+        2144
+      ],
+      "bounds_rel": [
+        0,
+        787,
+        1000,
+        1000
+      ],
+      "center_rel": [
+        500,
+        893
+      ]
+    },
+    {
+      "index": 24,
+      "class_name": "android.view.ViewGroup",
+      "resource_id": "com.google.android.apps.nexuslauncher:id/hotseat",
+      "text": "",
+      "content_desc": "",
+      "package": "com.google.android.apps.nexuslauncher",
+      "clickable": false,
+      "enabled": true,
+      "focused": false,
+      "selected": false,
+      "bounds_px": [
+        0,
+        1905,
+        1080,
+        2400
+      ],
+      "center_px": [
+        540,
+        2152
+      ],
+      "bounds_rel": [
+        0,
+        793,
+        1000,
+        1000
+      ],
+      "center_rel": [
+        500,
+        896
+      ]
+    },
+    {
+      "index": 26,
+      "class_name": "android.widget.TextView",
+      "resource_id": "",
+      "text": "Phone",
+      "content_desc": "Phone",
+      "package": "com.google.android.apps.nexuslauncher",
+      "clickable": true,
+      "enabled": true,
+      "focused": false,
+      "selected": false,
+      "bounds_px": [
+        71,
+        1905,
+        244,
+        2100
+      ],
+      "center_px": [
+        157,
+        2002
+      ],
+      "bounds_rel": [
+        65,
+        793,
+        225,
+        875
+      ],
+      "center_rel": [
+        145,
+        834
+      ]
+    },
+    {
+      "index": 27,
+      "class_name": "android.widget.TextView",
+      "resource_id": "",
+      "text": "Messages",
+      "content_desc": "Messages",
+      "package": "com.google.android.apps.nexuslauncher",
+      "clickable": true,
+      "enabled": true,
+      "focused": false,
+      "selected": false,
+      "bounds_px": [
+        326,
+        1905,
+        499,
+        2100
+      ],
+      "center_px": [
+        412,
+        2002
+      ],
+      "bounds_rel": [
+        301,
+        793,
+        462,
+        875
+      ],
+      "center_rel": [
+        381,
+        834
+      ]
+    },
+    {
+      "index": 28,
+      "class_name": "android.widget.TextView",
+      "resource_id": "",
+      "text": "Chrome",
+      "content_desc": "Chrome",
+      "package": "com.google.android.apps.nexuslauncher",
+      "clickable": true,
+      "enabled": true,
+      "focused": false,
+      "selected": false,
+      "bounds_px": [
+        581,
+        1905,
+        754,
+        2100
+      ],
+      "center_px": [
+        667,
+        2002
+      ],
+      "bounds_rel": [
+        537,
+        793,
+        698,
+        875
+      ],
+      "center_rel": [
+        617,
+        834
+      ]
+    },
+    {
+      "index": 29,
+      "class_name": "android.widget.TextView",
+      "resource_id": "",
+      "text": "YouTube",
+      "content_desc": "Predicted app: YouTube",
+      "package": "com.google.android.apps.nexuslauncher",
+      "clickable": true,
+      "enabled": true,
+      "focused": false,
+      "selected": false,
+      "bounds_px": [
+        836,
+        1905,
+        1009,
+        2100
+      ],
+      "center_px": [
+        922,
+        2002
+      ],
+      "bounds_rel": [
+        774,
+        793,
+        934,
+        875
+      ],
+      "center_rel": [
+        853,
+        834
+      ]
+    },
+    {
+      "index": 30,
+      "class_name": "android.widget.FrameLayout",
+      "resource_id": "com.google.android.apps.nexuslauncher:id/search_container_hotseat",
+      "text": "",
+      "content_desc": "Google search",
+      "package": "com.google.android.apps.nexuslauncher",
+      "clickable": true,
+      "enabled": true,
+      "focused": false,
+      "selected": false,
+      "bounds_px": [
+        78,
+        2125,
+        1002,
+        2290
+      ],
+      "center_px": [
+        540,
+        2207
+      ],
+      "bounds_rel": [
+        72,
+        885,
+        927,
+        954
+      ],
+      "center_rel": [
+        500,
+        919
+      ]
+    },
+    {
+      "index": 31,
+      "class_name": "android.widget.ImageView",
+      "resource_id": "com.google.android.apps.nexuslauncher:id/g_icon",
+      "text": "",
+      "content_desc": "Google app",
+      "package": "com.google.android.apps.nexuslauncher",
+      "clickable": true,
+      "enabled": true,
+      "focused": false,
+      "selected": false,
+      "bounds_px": [
+        89,
+        2144,
+        215,
+        2270
+      ],
+      "center_px": [
+        152,
+        2207
+      ],
+      "bounds_rel": [
+        82,
+        893,
+        199,
+        945
+      ],
+      "center_rel": [
+        140,
+        919
+      ]
+    },
+    {
+      "index": 32,
+      "class_name": "android.widget.LinearLayout",
+      "resource_id": "com.google.android.apps.nexuslauncher:id/end_part",
+      "text": "",
+      "content_desc": "",
+      "package": "com.google.android.apps.nexuslauncher",
+      "clickable": false,
+      "enabled": true,
+      "focused": false,
+      "selected": false,
+      "bounds_px": [
+        739,
+        2125,
+        991,
+        2290
+      ],
+      "center_px": [
+        865,
+        2207
+      ],
+      "bounds_rel": [
+        684,
+        885,
+        917,
+        954
+      ],
+      "center_rel": [
+        800,
+        919
+      ]
+    },
+    {
+      "index": 33,
+      "class_name": "android.widget.ImageView",
+      "resource_id": "com.google.android.apps.nexuslauncher:id/mic_icon",
+      "text": "",
+      "content_desc": "Voice search",
+      "package": "com.google.android.apps.nexuslauncher",
+      "clickable": true,
+      "enabled": true,
+      "focused": false,
+      "selected": false,
+      "bounds_px": [
+        739,
+        2125,
+        865,
+        2290
+      ],
+      "center_px": [
+        802,
+        2207
+      ],
+      "bounds_rel": [
+        684,
+        885,
+        800,
+        954
+      ],
+      "center_rel": [
+        742,
+        919
+      ]
+    },
+    {
+      "index": 34,
+      "class_name": "android.widget.ImageButton",
+      "resource_id": "com.google.android.apps.nexuslauncher:id/lens_icon",
+      "text": "",
+      "content_desc": "Google Lens",
+      "package": "com.google.android.apps.nexuslauncher",
+      "clickable": true,
+      "enabled": true,
+      "focused": false,
+      "selected": false,
+      "bounds_px": [
+        865,
+        2125,
+        991,
+        2290
+      ],
+      "center_px": [
+        928,
+        2207
+      ],
+      "bounds_rel": [
+        800,
+        885,
+        917,
+        954
+      ],
+      "center_rel": [
+        859,
+        919
+      ]
+    }
+  ],
+  "device_info": {
+    "Device": "Google sdk_gphone64_arm64",
+    "Android version": "16",
+    "Physical size": "1080x2400",
+    "Physical density": "420"
+  }
+}

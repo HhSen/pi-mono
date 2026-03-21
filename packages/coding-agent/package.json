@@ -95,5 +95,14 @@
 	},
 	"engines": {
 		"node": ">=20.6.0"
-	}
+	},
+	"directories": {
+		"doc": "docs",
+		"example": "examples",
+		"test": "test"
+	},
+	"bugs": {
+		"url": "https://github.com/badlogic/pi-mono/issues"
+	},
+	"homepage": "https://github.com/badlogic/pi-mono#readme"
 }

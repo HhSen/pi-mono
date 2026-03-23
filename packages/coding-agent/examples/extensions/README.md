@@ -49,6 +49,7 @@ cp permission-gate.ts ~/.pi/agent/extensions/
 | `plan-mode/` | Claude Code-style plan mode for read-only exploration with `/plan` command and step tracking |
 | `tools.ts` | Interactive `/tools` command to enable/disable tools with session persistence |
 | `handoff.ts` | Transfer context to a new focused session via `/handoff <goal>` |
+| `init-command.ts` | Wraps a reusable `/init [goal]` prompt and sends it as a user message |
 | `qna.ts` | Extracts questions from last response into editor via `ctx.ui.setEditorText()` |
 | `status-line.ts` | Shows turn progress in footer via `ctx.ui.setStatus()` with themed colors |
 | `widget-placement.ts` | Shows widgets above and below the editor via `ctx.ui.setWidget()` placement |

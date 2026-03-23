@@ -2,6 +2,7 @@
 
 ## [Unreleased]
 
+<<<<<<< Updated upstream
 ## [0.62.0] - 2026-03-23
 
 ### New Features
@@ -55,6 +56,11 @@ Examples:
 - Fixed OpenAI-compatible completions streams to ignore null chunks instead of crashing ([#2466](https://github.com/badlogic/pi-mono/pull/2466) by [@Cheng-Zi-Qing](https://github.com/Cheng-Zi-Qing))
 - Fixed `truncateToWidth()` performance for very large strings by streaming truncation ([#2447](https://github.com/badlogic/pi-mono/issues/2447))
 - Fixed markdown heading styling being lost after inline code spans within headings
+=======
+### Fixed
+
+- Fixed the `examples/extensions/git-checkpoint.ts` example so `/fork` can still find stored checkpoints after a turn completes and correctly prompts to restore the selected message's code state.
+>>>>>>> Stashed changes
 
 ## [0.61.1] - 2026-03-20
 

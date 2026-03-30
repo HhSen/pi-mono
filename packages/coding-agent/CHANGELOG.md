@@ -4,6 +4,7 @@
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 =======
 =======
@@ -16,6 +17,57 @@
 >>>>>>> ec1cf54ada63518cc595a0f1eeb8a2dd2105328a
 ### Fixed
 
+=======
+## [0.64.0] - 2026-03-29
+
+### New Features
+
+- Extensions and SDK callers can attach a `prepareArguments` hook to any tool definition, letting them normalize or migrate raw model arguments before schema validation. The built-in `edit` tool uses this to transparently support sessions created with the old single-edit schema. See [docs/extensions.md](docs/extensions.md)
+- Extensions can customize the collapsed thinking block label via `ctx.ui.setHiddenThinkingLabel()`. See [examples/extensions/hidden-thinking-label.ts](examples/extensions/hidden-thinking-label.ts) ([#2673](https://github.com/badlogic/pi-mono/issues/2673))
+
+### Breaking Changes
+
+- `ModelRegistry` no longer has a public constructor. SDK callers and tests must use `ModelRegistry.create(authStorage, modelsJsonPath?)` for file-backed registries or `ModelRegistry.inMemory(authStorage)` for built-in-only registries. Direct `new ModelRegistry(...)` calls no longer compile.
+
+### Added
+
+- Added `ToolDefinition.prepareArguments` hook to prepare raw tool call arguments before schema validation, enabling compatibility shims for resumed sessions with outdated tool schemas
+- Built-in `edit` tool now uses `prepareArguments` to silently fold legacy top-level `oldText`/`newText` into `edits[]` when resuming old sessions
+- Added `ctx.ui.setHiddenThinkingLabel()` so extensions can customize the collapsed thinking label in interactive mode, with a no-op in RPC mode and a runnable example extension in `examples/extensions/hidden-thinking-label.ts` ([#2673](https://github.com/badlogic/pi-mono/issues/2673))
+
+### Fixed
+
+- Fixed extension-queued user messages to refresh the interactive pending-message list so messages submitted while a turn is active are no longer silently dropped ([#2674](https://github.com/badlogic/pi-mono/pull/2674) by [@mrexodia](https://github.com/mrexodia))
+- Fixed monorepo `tsconfig.json` path mappings to resolve `@mariozechner/pi-ai` subpath exports to source files in development checkouts ([#2625](https://github.com/badlogic/pi-mono/pull/2625) by [@ferologics](https://github.com/ferologics))
+- Fixed TUI cell size response handling to consume only exact `CSI 6 ; height ; width t` replies, so bare `Escape` is no longer swallowed while waiting for terminal image metadata ([#2661](https://github.com/badlogic/pi-mono/issues/2661))
+- Fixed Kitty keyboard protocol keypad functional keys to normalize to logical digits, symbols, and navigation keys, so numpad input in terminals such as iTerm2 no longer inserts Private Use Area gibberish or gets ignored ([#2650](https://github.com/badlogic/pi-mono/issues/2650))
+
+## [0.63.2] - 2026-03-29
+
+### New Features
+
+- Extension handlers can now use `ctx.signal` to forward cancellation into nested model calls, `fetch()`, and other abort-aware work. See [docs/extensions.md#ctxsignal](docs/extensions.md#ctxsignal) ([#2660](https://github.com/badlogic/pi-mono/issues/2660))
+- Built-in `edit` tool input now uses `edits[]` as the only replacement shape, reducing invalid tool calls caused by mixed single-edit and multi-edit schemas ([#2639](https://github.com/badlogic/pi-mono/issues/2639))
+- Large multi-edit results no longer trigger full-screen redraws in the interactive TUI when the final diff is rendered ([#2664](https://github.com/badlogic/pi-mono/issues/2664))
+
+### Added
+
+- Added `ctx.signal` to `ExtensionContext` and wired it to the active agent turn so extension handlers can forward cancellation into nested model calls, `fetch()`, and other abort-aware work ([#2660](https://github.com/badlogic/pi-mono/issues/2660))
+
+### Fixed
+
+- Fixed built-in `edit` tool input to use `edits[]` as the only replacement shape, eliminating the mixed single-edit and multi-edit modes that caused repeated invalid tool calls and retries ([#2639](https://github.com/badlogic/pi-mono/issues/2639))
+- Fixed edit tool TUI rendering to defer large multi-edit diffs to the settled result, avoiding full-screen redraws when the tool completes ([#2664](https://github.com/badlogic/pi-mono/issues/2664))
+
+## [0.63.1] - 2026-03-27
+
+### Added
+
+- Added `gemini-3.1-pro-preview-customtools` model availability for the `google-vertex` provider ([#2610](https://github.com/badlogic/pi-mono/pull/2610) by [@gordonhwc](https://github.com/gordonhwc))
+
+### Fixed
+
+>>>>>>> 5e3852fc9c063406eaebb833092e8e5fe736728f
 - Documented `tool_call` input mutation as supported extension API behavior, clarified that post-mutation inputs are not re-validated, and added regression coverage for executing mutated tool arguments ([#2611](https://github.com/badlogic/pi-mono/issues/2611))
 - Fixed repeated compactions dropping messages that were kept by an earlier compaction by re-summarizing from the previous kept boundary and recalculating `tokensBefore` from the rebuilt session context ([#2608](https://github.com/badlogic/pi-mono/issues/2608))
 - Fixed interactive compaction UI updates so `ctx.compact()` rebuilds the chat through unified compaction events, manual compaction no longer duplicates the summary block, and the `trigger-compact` example only fires when context usage crosses its threshold ([#2617](https://github.com/badlogic/pi-mono/issues/2617))

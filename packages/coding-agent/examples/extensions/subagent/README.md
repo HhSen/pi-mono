@@ -24,9 +24,10 @@ subagent/
 │   ├── reviewer.md      # Code review
 │   └── worker.md        # General-purpose (full capabilities)
 └── prompts/             # Workflow presets (prompt templates)
-    ├── implement.md     # scout -> planner -> worker
-    ├── scout-and-plan.md    # scout -> planner (no implementation)
-    └── implement-and-review.md  # worker -> reviewer -> worker
+    ├── implement.md             # scout -> planner -> worker
+    ├── scout-and-plan.md        # scout -> planner (no implementation)
+    ├── implement-and-review.md  # worker -> reviewer -> worker
+    └── init-repo.md             # Full recursive repo init with parallel workers
 ```
 
 ## Installation
@@ -157,6 +158,21 @@ Project agents override user agents with the same name when `agentScope: "both"`
 | `/implement <query>` | scout → planner → worker |
 | `/scout-and-plan <query>` | scout → planner |
 | `/implement-and-review <query>` | worker → reviewer → worker |
+| `/init-repo` | discover modules → parallel workers per module → root synthesis worker |
+
+### `/init-repo` workflow detail
+
+This workflow handles repositories with nested or multiple modules where a single `/init` run would overload one context window. It reuses the `worker` agent for all subagent calls — the task strings carry the full instructions.
+
+**Phase 1 — Discovery:** The main agent scans the repo root for manifest files (`package.json`, `pyproject.toml`, `go.mod`, etc.) to enumerate all module boundaries. The repo root is excluded from this list and handled separately in Phase 3.
+
+**Phase 2 — Parallel module init:** One `worker` subagent is spawned per module, each with `cwd` set to that module's absolute path. Workers run up to 8 at a time in batches. Each task string is self-contained — it carries all scanning and writing instructions inline. Workers write their own `AGENTS.md` and flag any deeply-nested submodules they find, but do not recurse into them.
+
+**Phase 3 — Root synthesis:** After all batches finish, a single `worker` runs at the repo root. It reads every module's `AGENTS.md` (not raw source) and produces the root `AGENTS.md` with Mermaid diagrams, a module index table, and global standards.
+
+**Phase 4 — Report:** The main agent prints a per-module status table and recommended follow-up paths for anything not covered.
+
+This keeps the agent count minimal: only `worker` is used, and all role-specific behavior lives in the prompt.
 
 ## Error Handling
 

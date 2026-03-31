@@ -1,39 +1,43 @@
 # Pi Monorepo AI Context
 
-Updated: 2026-03-06T18:00:57+08:00
+Updated: 2026-03-31T14:43:29+08:00
 
 ## Vision
-- Pi Monorepo is a TypeScript workspace for building agentic products across CLI, terminal UI, browser UI, Slack automation, and self-hosted model infrastructure.
-- The core layering is: provider access in `packages/ai`, orchestration in `packages/agent`, user-facing products in `packages/coding-agent`, `packages/mom`, `packages/pods`, and presentation primitives in `packages/tui` and `packages/web-ui`.
-- Root context should stay concise; package-level `AGENTS.md` files carry the detailed local entry points, interfaces, tests, and deep-dive notes.
+Pi Monorepo is a TypeScript workspace for building agentic products across terminal, browser, Slack, and self-hosted inference environments. Its base layers normalize model/provider access in `packages/ai`, orchestrate multi-turn tool-using agents in `packages/agent`, and provide terminal and web presentation primitives in `packages/tui` and `packages/web-ui`. On top of that foundation, the repo ships end-user products such as the `pi` coding agent, the Slack-based `mom` bot, the `pi` pods CLI, and a set of extension/example workspaces that demonstrate customization outside core packages.
 
 ## Workspace Map
 
 ```mermaid
 flowchart TD
     Root[pi-mono]
-    Root --> AI[packages/ai]
-    Root --> Agent[packages/agent]
-    Root --> Coding[packages/coding-agent]
-    Root --> Mom[packages/mom]
-    Root --> Pods[packages/pods]
-    Root --> TUI[packages/tui]
-    Root --> WebUI[packages/web-ui]
-    WebUI --> WebExample[packages/web-ui/example]
-    Coding --> ExtExamples[packages/coding-agent/examples/extensions]
-```
 
-## Architecture Overview
+    AI[packages/ai]
+    Agent[packages/agent]
+    TUI[packages/tui]
+    Coding[packages/coding-agent]
+    Mom[packages/mom]
+    Pods[packages/pods]
+    WebUI[packages/web-ui]
+    WebExample[packages/web-ui/example]
+    ExtAnthropic[custom-provider-anthropic]
+    ExtGitLab[custom-provider-gitlab-duo]
+    ExtQwen[custom-provider-qwen-cli]
+    ExtSandbox[sandbox]
+    ExtWithDeps[with-deps]
 
-```mermaid
-flowchart LR
-    AI[@mariozechner/pi-ai]
-    TUI[@mariozechner/pi-tui]
-    Agent[@mariozechner/pi-agent-core]
-    Coding[@mariozechner/pi-coding-agent]
-    Mom[@mariozechner/pi-mom]
-    Pods[@mariozechner/pi]
-    WebUI[@mariozechner/pi-web-ui]
+    Root --> AI
+    Root --> Agent
+    Root --> TUI
+    Root --> Coding
+    Root --> Mom
+    Root --> Pods
+    Root --> WebUI
+    Root --> WebExample
+    Root --> ExtAnthropic
+    Root --> ExtGitLab
+    Root --> ExtQwen
+    Root --> ExtSandbox
+    Root --> ExtWithDeps
 
     Agent --> AI
     Coding --> Agent
@@ -45,32 +49,87 @@ flowchart LR
     Pods --> Agent
     WebUI --> AI
     WebUI --> TUI
+    WebUI -. expects agent runtime .-> Agent
+    WebExample --> WebUI
+    WebExample --> Agent
+    WebExample --> AI
+    ExtAnthropic --> Coding
+    ExtAnthropic --> AI
+    ExtGitLab --> Coding
+    ExtGitLab --> AI
+    ExtQwen --> Coding
+    ExtQwen --> AI
+    ExtSandbox --> Coding
+    ExtWithDeps --> Coding
+```
+
+## Architecture Overview
+
+```mermaid
+flowchart LR
+    AI["packages/ai<br/>Providers, models, OAuth, streaming"]
+    Agent["packages/agent<br/>Stateful loop, tools, agent events"]
+    TUI["packages/tui<br/>Terminal runtime, widgets, keybindings"]
+    Coding["packages/coding-agent<br/>CLI, sessions, extensions, RPC/TUI"]
+    Exts["coding-agent example extensions<br/>Custom providers, tool overrides, fixtures"]
+    Mom["packages/mom<br/>Slack bot runtime and channel workspaces"]
+    Pods["packages/pods<br/>GPU pod + vLLM operations CLI"]
+    WebUI["packages/web-ui<br/>Browser chat UI, storage, browser tools"]
+    WebExample["packages/web-ui/example<br/>Demo app wiring browser agent flows"]
+
+    AI -- "normalized model streams + auth" --> Agent
+    Agent -- "turn orchestration + tool events" --> Coding
+    AI -- "provider registry + model metadata" --> Coding
+    TUI -- "interactive terminal primitives" --> Coding
+    Coding -- "extension host API" --> Exts
+    AI -- "provider/message contracts" --> Exts
+    Coding -- "session/runtime glue" --> Mom
+    Agent -- "tool loop + event model" --> Mom
+    AI -- "LLM requests + message types" --> Mom
+    Pods -- "prompt handoff" --> Agent
+    Pods -- "OpenAI-compatible self-hosted endpoints" --> AI
+    AI -- "browser-safe model layer" --> WebUI
+    Agent -- "host-supplied agent runtime" --> WebUI
+    TUI -- "shared rendering/message primitives" --> WebUI
+    WebUI -- "embeddable chat panel + stores" --> WebExample
+    Agent -- "browser Agent wiring" --> WebExample
+    AI -- "model lookup + message conversion" --> WebExample
 ```
 
 ## Module Index
 | Module | Purpose | Local context |
 | --- | --- | --- |
-| `packages/ai` | Unified streaming/model/provider layer for many LLM APIs | `packages/ai/AGENTS.md` |
-| `packages/agent` | Stateful agent loop and tool orchestration runtime | `packages/agent/AGENTS.md` |
-| `packages/coding-agent` | Main `pi` CLI, SDK, sessions, modes, extensions, prompts, themes | `packages/coding-agent/AGENTS.md` |
-| `packages/mom` | Slack bot wrapper around the coding agent runtime | `packages/mom/AGENTS.md` |
-| `packages/pods` | GPU pod and vLLM management CLI | `packages/pods/AGENTS.md` |
-| `packages/tui` | Differential-rendering terminal UI framework | `packages/tui/AGENTS.md` |
-| `packages/web-ui` | Browser chat components, storage, attachments, artifacts | `packages/web-ui/AGENTS.md` |
+| `packages/ai` | Base LLM integration layer for provider registration, models, OAuth, and normalized streaming. | [`packages/ai/AGENTS.md`](packages/ai/AGENTS.md) |
+| `packages/agent` | Stateful agent runtime that owns conversation state, loop execution, tool orchestration, and agent events. | [`packages/agent/AGENTS.md`](packages/agent/AGENTS.md) |
+| `packages/coding-agent` | Main `pi` product package covering CLI, SDK, sessions, tools, modes, extensions, and interactive TUI flows. | [`packages/coding-agent/AGENTS.md`](packages/coding-agent/AGENTS.md) |
+| `packages/coding-agent/examples/extensions/custom-provider-anthropic` | Example extension that registers a custom Anthropic-backed provider with env-key and OAuth support. | [`packages/coding-agent/examples/extensions/custom-provider-anthropic/AGENTS.md`](packages/coding-agent/examples/extensions/custom-provider-anthropic/AGENTS.md) |
+| `packages/coding-agent/examples/extensions/custom-provider-gitlab-duo` | Example extension exposing GitLab Duo models through Pi by combining OAuth/token handling with existing Anthropic/OpenAI adapters. | [`packages/coding-agent/examples/extensions/custom-provider-gitlab-duo/AGENTS.md`](packages/coding-agent/examples/extensions/custom-provider-gitlab-duo/AGENTS.md) |
+| `packages/coding-agent/examples/extensions/custom-provider-qwen-cli` | Minimal OAuth-backed custom provider example for Qwen CLI and DashScope-compatible model access. | [`packages/coding-agent/examples/extensions/custom-provider-qwen-cli/AGENTS.md`](packages/coding-agent/examples/extensions/custom-provider-qwen-cli/AGENTS.md) |
+| `packages/coding-agent/examples/extensions/sandbox` | Example extension that overrides `bash` with an OS-level sandbox and adds related flags, commands, and lifecycle hooks. | [`packages/coding-agent/examples/extensions/sandbox/AGENTS.md`](packages/coding-agent/examples/extensions/sandbox/AGENTS.md) |
+| `packages/coding-agent/examples/extensions/with-deps` | Fixture extension proving Pi can load extension-local npm dependencies from a separate workspace package. | [`packages/coding-agent/examples/extensions/with-deps/AGENTS.md`](packages/coding-agent/examples/extensions/with-deps/AGENTS.md) |
+| `packages/mom` | Slack bot harness that runs the coding agent against per-channel workspaces, history, attachments, and scheduled events. | [`packages/mom/AGENTS.md`](packages/mom/AGENTS.md) |
+| `packages/pods` | CLI for provisioning GPU pods, installing vLLM, and managing self-hosted model processes/endpoints. | [`packages/pods/AGENTS.md`](packages/pods/AGENTS.md) |
+| `packages/tui` | Terminal UI framework providing differential rendering, terminal I/O, widgets, and configurable keybindings. | [`packages/tui/AGENTS.md`](packages/tui/AGENTS.md) |
+| `packages/web-ui` | Browser UI package with chat components, dialogs, browser-safe tools, artifact rendering, and IndexedDB-backed storage. | [`packages/web-ui/AGENTS.md`](packages/web-ui/AGENTS.md) |
+| `packages/web-ui/example` | Vite demo app showing how to embed `@mariozechner/pi-web-ui` with browser agent state, storage, and custom messages. | [`packages/web-ui/example/AGENTS.md`](packages/web-ui/example/AGENTS.md) |
 
 ## Global Standards
-- Preserve the existing package boundaries: provider abstractions in `ai`, agent logic in `agent`, product behavior in consumer packages.
-- Prefer top-level imports, strong typing, configurable keybindings, and package-local tests/docs over implicit behavior.
-- After source edits, run `npm run check`; do not run `npm run dev`, `npm run build`, or `npm test` from this repo unless explicitly required by project rules.
-- Never commit unless the user asks; when committing, stage only the files changed in the current session.
-- Treat package READMEs and changelogs as authoritative references for public behavior, release notes, and setup guidance.
+- Use the repo root as the operating context: `package.json` defines npm workspaces for all first-class packages plus selected example workspaces, and contributors are expected to run tools/agents from the monorepo root.
+- Keep package boundaries intact. `packages/ai` is the provider/model foundation, `packages/agent` owns orchestration, `packages/tui` and `packages/web-ui` provide UI primitives, product packages consume those layers, and example extensions are the preferred place for custom integrations that do not belong in core.
+- The workspace is TypeScript + ESM with a Node `>=20` floor, root `strict` compiler settings, and path aliases that point package imports at source during local development.
+- `npm run check` is the shared quality gate: it runs Biome with `--write --error-on-warnings`, `tsgo --noEmit`, a browser smoke check, and the `packages/web-ui` check. Husky pre-commit runs the same gate and re-stages files that formatting changed.
+- Biome is the canonical formatter/linter. Repo defaults are tabs, `indentWidth: 3`, `lineWidth: 120`, recommended lint rules, and selective exclusions for generated files, build outputs, fixture data, and `node_modules`.
+- Prefer strongly typed public entry points, package-local tests, and documented extension/provider registration surfaces over deep private imports or implicit cross-package coupling. Several example modules intentionally exist to show how to extend Pi without patching core packages.
+- Do not hand-edit generated artifacts or inferred registries when a generator/script is the source of truth. Align public behavior changes with the relevant package README, changelog, and local `AGENTS.md` before editing.
+- CONTRIBUTING establishes an extension-first, understanding-first culture: keep the core minimal, avoid speculative bloat, and make sure changes are explainable end to end.
 
 ## Scan Status
-- Initialization strategy: lightweight repository census, medium package scan, then targeted supplementation on high-value paths only.
-- Estimated tracked files: `651`; direct file reads for this pass: `~18` files plus package directory listings; primary module coverage: `7/7`.
-- Skipped by default: `node_modules`, generated outputs, binary assets, and exhaustive file-by-file traversal of large trees such as `packages/coding-agent/src/core` and `packages/web-ui/src/components`.
-- Recommended next deep dives: `packages/coding-agent/src/core`, `packages/coding-agent/src/modes`, `packages/ai/src/providers`, `packages/web-ui/src/components`, `packages/mom/src/tools`, `packages/pods/src/commands`.
-- Re-run behavior: update this root index incrementally, preserve package-level notes, and extend only the modules or deep-dive paths that changed.
+- Strategy used: listed the repo root, read the workspace/root manifest and config files, read every requested module `AGENTS.md` in full, then skimmed additional root policy/config files for repo-wide standards.
+- Estimated tracked files: `765` via `git ls-files`; direct reads in this pass: `22` files total (`13` module `AGENTS.md` files and `9` root docs/config files), plus directory listings/searches.
+- Coverage: full local-context coverage for `13/13` requested modules; shallow root-policy coverage only; module source files were intentionally not re-read per the scan instructions.
+- Root files skimmed for standards: `package.json`, `tsconfig.json`, `tsconfig.base.json`, `biome.json`, `CONTRIBUTING.md`, `README.md`, `.husky/pre-commit`, `.gitignore`, and the existing root `AGENTS.md`.
+- Recommended next deep dives if implementation work follows: `packages/agent/src/agent-loop.ts`, `packages/ai/src/providers/`, `packages/coding-agent/src/main.ts`, `packages/coding-agent/src/core/agent-session.ts`, `packages/mom/src/slack.ts`, `packages/pods/src/commands/`, `packages/tui/src/tui.ts`, `packages/web-ui/src/ChatPanel.ts`, `packages/web-ui/example/src/main.ts`, and `packages/coding-agent/examples/extensions/*/index.ts`.
+- Re-run guidance: refresh this root index from module `AGENTS.md` files first, then only rescan root config when workspace structure, tooling, or repo-wide policy changes.
 
 ---
 

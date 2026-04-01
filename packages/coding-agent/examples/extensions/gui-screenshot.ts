@@ -8,6 +8,7 @@
  *
  * Start pi with this extension:
  *   pi -e ./examples/extensions/gui-screenshot.ts
+ *   pi -e ./examples/extensions/gui-screenshot.ts --gui-screenshot off
  */
 
 import { execSync } from "node:child_process";
@@ -20,6 +21,7 @@ import type { ContextEvent, ExtensionAPI } from "@mariozechner/pi-coding-agent";
 
 /** Marker text prepended to the injected user message so we can identify it later. */
 const SCREENSHOT_MARKER = "__gui_screenshot__";
+const GUI_SCREENSHOT_FLAG = "gui-screenshot";
 
 /** Capture a screenshot from the connected Android device and return base64 PNG data. */
 function captureAndroidScreenshot(): string | null {
@@ -50,13 +52,30 @@ function findScreenshotMessageIndex(messages: AgentMessage[]): number {
 	return messages.findIndex((msg) => isScreenshotMessage(msg));
 }
 
+function isGuiScreenshotEnabled(pi: ExtensionAPI): boolean {
+	const value = pi.getFlag(GUI_SCREENSHOT_FLAG);
+	if (typeof value !== "string") return true;
+	const normalized = value.trim().toLowerCase();
+	return normalized !== "off" && normalized !== "false" && normalized !== "0";
+}
+
 export default function (pi: ExtensionAPI) {
+	pi.registerFlag(GUI_SCREENSHOT_FLAG, {
+		description: "Inject Android screenshots into model context (on/off)",
+		type: "string",
+		default: "on",
+	});
+
 	pi.on("context", (event: ContextEvent) => {
 		const messages = [...event.messages];
 
 		const screenshotMessageIndex = findScreenshotMessageIndex(messages);
 		if (screenshotMessageIndex !== -1) {
 			messages.splice(screenshotMessageIndex, 1);
+		}
+
+		if (!isGuiScreenshotEnabled(pi)) {
+			return { messages };
 		}
 
 		const base64 = captureAndroidScreenshot();

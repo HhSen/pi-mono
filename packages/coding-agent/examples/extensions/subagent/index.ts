@@ -27,6 +27,58 @@ import { type AgentConfig, type AgentScope, discoverAgents } from "./agents.js";
 const MAX_PARALLEL_TASKS = 8;
 const MAX_CONCURRENCY = 4;
 const COLLAPSED_ITEM_COUNT = 10;
+const MAX_PROMPT_AGENTS_PER_SCOPE = 8;
+const MAX_AGENT_DESCRIPTION_LENGTH = 120;
+
+function truncateText(text: string, maxLength: number): string {
+	if (text.length <= maxLength) return text;
+	return `${text.slice(0, Math.max(0, maxLength - 3)).trimEnd()}...`;
+}
+
+function formatPromptAgentSection(title: string, agents: AgentConfig[]): string[] {
+	if (agents.length === 0) return [];
+
+	const listedAgents = agents.slice(0, MAX_PROMPT_AGENTS_PER_SCOPE);
+	const lines = [title];
+	for (const agent of listedAgents) {
+		lines.push(`- ${agent.name}: ${truncateText(agent.description, MAX_AGENT_DESCRIPTION_LENGTH)}`);
+	}
+
+	const remaining = agents.length - listedAgents.length;
+	if (remaining > 0) lines.push(`- ... ${remaining} more`);
+
+	return lines;
+}
+
+function buildSubagentCatalogPrompt(cwd: string): string {
+	const discovery = discoverAgents(cwd, "both");
+	if (discovery.agents.length === 0) {
+		return [
+			"Subagent catalog:",
+			"- There are currently no available subagents.",
+			"- Do not call the subagent tool unless subagents are added in ~/.pi/agent/agents or .pi/agents.",
+		].join("\n");
+	}
+
+	const userAgents = discovery.agents.filter((agent) => agent.source === "user");
+	const projectAgents = discovery.agents.filter((agent) => agent.source === "project");
+
+	const sections = [
+		"Subagent catalog:",
+		"- Use the subagent tool when one of these specialists is a better fit than continuing in the current agent.",
+		"- Pass the exact agent name.",
+		"- Default subagent scope is user (~/.pi/agent/agents).",
+		'- To use project-local agents from .pi/agents, set agentScope to "project" or "both". Project agents may require approval before running.',
+	];
+
+	const userSection = formatPromptAgentSection("User agents:", userAgents);
+	if (userSection.length > 0) sections.push("", ...userSection);
+
+	const projectSection = formatPromptAgentSection("Project agents:", projectAgents);
+	if (projectSection.length > 0) sections.push("", ...projectSection);
+
+	return sections.join("\n");
+}
 
 function formatTokens(count: number): string {
 	if (count < 1000) return count.toString();
@@ -428,15 +480,25 @@ const SubagentParams = Type.Object({
 });
 
 export default function (pi: ExtensionAPI) {
+	pi.on("before_agent_start", async (event, ctx) => {
+		const subagentCatalogPrompt = buildSubagentCatalogPrompt(ctx.cwd);
+
+		return {
+			systemPrompt: `${event.systemPrompt}\n\n${subagentCatalogPrompt}`,
+		};
+	});
+
 	pi.registerTool({
 		name: "subagent",
 		label: "Subagent",
 		description: [
 			"Delegate tasks to specialized subagents with isolated context.",
 			"Modes: single (agent + task), parallel (tasks array), chain (sequential with {previous} placeholder).",
-			'Default agent scope is "user" (from ~/.pi/agent/agents).',
+			"Current turn context includes a discovered subagent catalog with names and descriptions when available.",
+			"Passing no agentScope uses only user agents from ~/.pi/agent/agents.",
 			'To enable project-local agents in .pi/agents, set agentScope: "both" (or "project").',
 		].join(" "),
+		promptSnippet: "subagent: delegate work to a named specialist from the discovered subagent catalog.",
 		parameters: SubagentParams,
 
 		async execute(_toolCallId, params, signal, onUpdate, ctx) {

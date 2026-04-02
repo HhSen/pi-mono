@@ -4,11 +4,11 @@ Read-only exploration mode for safe code analysis.
 
 ## Features
 
-- **Read-only tools**: Restricts available tools to read, bash, grep, find, ls, question
+- **Read-only tools**: Restricts available tools to read, bash, grep, find, ls, questionnaire, plan_add_todo
 - **Bash allowlist**: Only read-only bash commands are allowed
-- **Plan extraction**: Extracts numbered steps from `Plan:` sections
+- **plan_add_todo tool**: LLM explicitly adds steps during planning (no regex parsing)
+- **plan_complete_todo tool**: LLM explicitly marks steps done during execution (no [DONE:n] markers)
 - **Progress tracking**: Widget shows completion status during execution
-- **[DONE:n] markers**: Explicit step completion tracking
 - **Session persistence**: State survives session resume
 
 ## Commands
@@ -21,30 +21,30 @@ Read-only exploration mode for safe code analysis.
 
 1. Enable plan mode with `/plan` or `--plan` flag
 2. Ask the agent to analyze code and create a plan
-3. The agent should output a numbered plan under a `Plan:` header:
+3. The agent calls `plan_add_todo` for each planned step:
 
 ```
-Plan:
-1. First step description
-2. Second step description
-3. Third step description
+plan_add_todo("Analyze existing test structure")
+plan_add_todo("Identify missing coverage for auth module")
+plan_add_todo("Write unit tests for login flow")
 ```
 
 4. Choose "Execute the plan" when prompted
-5. During execution, the agent marks steps complete with `[DONE:n]` tags
+5. During execution, the agent calls `plan_complete_todo(step)` after finishing each step
 6. Progress widget shows completion status
 
 ## How It Works
 
 ### Plan Mode (Read-Only)
-- Only read-only tools available
+- Only read-only tools available, plus `plan_add_todo`
 - Bash commands filtered through allowlist
-- Agent creates a plan without making changes
+- Agent builds the plan by calling `plan_add_todo` for each step
+- No text-parsing or `Plan:` header format required
 
 ### Execution Mode
-- Full tool access restored
+- Full tool access restored, plus `plan_complete_todo`
 - Agent executes steps in order
-- `[DONE:n]` markers track completion
+- Agent calls `plan_complete_todo(step)` after completing each step
 - Widget shows progress
 
 ### Command Allowlist

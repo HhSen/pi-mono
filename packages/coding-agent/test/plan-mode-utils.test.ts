@@ -1,5 +1,47 @@
 import { describe, expect, it } from "vitest";
-import { isSafeCommand } from "../examples/extensions/plan-mode/utils.js";
+import {
+	DEFAULT_NORMAL_MODE_TOOLS,
+	getExecutionModeTools,
+	getNormalModeTools,
+	isSafeCommand,
+} from "../examples/extensions/plan-mode/utils.js";
+
+describe("plan mode tool helpers", () => {
+	describe("getNormalModeTools", () => {
+		it("filters plan-only tools out of the normal tool set", () => {
+			expect(
+				getNormalModeTools([
+					"read",
+					"bash",
+					"edit",
+					"write",
+					"plan_add_todo",
+					"plan_remove_todo",
+					"plan_complete_todo",
+				]),
+			).toEqual(["read", "bash", "edit", "write"]);
+		});
+
+		it("falls back to the default coding tools when only plan tools are active", () => {
+			expect(getNormalModeTools(["plan_add_todo", "plan_remove_todo", "plan_complete_todo"])).toEqual(
+				DEFAULT_NORMAL_MODE_TOOLS,
+			);
+		});
+	});
+
+	describe("getExecutionModeTools", () => {
+		it("adds execution-only todo tools without duplicating them", () => {
+			expect(getExecutionModeTools(["read", "bash", "edit", "write", "plan_remove_todo"])).toEqual([
+				"read",
+				"bash",
+				"edit",
+				"write",
+				"plan_remove_todo",
+				"plan_complete_todo",
+			]);
+		});
+	});
+});
 
 describe("isSafeCommand", () => {
 	describe("safe commands", () => {

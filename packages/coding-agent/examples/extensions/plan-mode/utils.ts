@@ -3,6 +3,10 @@
  * Extracted for testability.
  */
 
+export const PLAN_EXTENSION_TOOLS = ["plan_add_todo", "plan_remove_todo", "plan_complete_todo"];
+export const DEFAULT_NORMAL_MODE_TOOLS = ["read", "bash", "edit", "write"];
+const EXEC_MODE_PLAN_TOOLS = ["plan_complete_todo", "plan_remove_todo"];
+
 // Destructive commands blocked in plan mode
 const DESTRUCTIVE_PATTERNS = [
 	/\brm\b/i,
@@ -98,6 +102,15 @@ export function isSafeCommand(command: string): boolean {
 	const isDestructive = DESTRUCTIVE_PATTERNS.some((p) => p.test(command));
 	const isSafe = SAFE_PATTERNS.some((p) => p.test(command));
 	return !isDestructive && isSafe;
+}
+
+export function getNormalModeTools(activeTools: string[]): string[] {
+	const nonPlanModeTools = activeTools.filter((toolName) => !PLAN_EXTENSION_TOOLS.includes(toolName));
+	return nonPlanModeTools.length > 0 ? nonPlanModeTools : [...DEFAULT_NORMAL_MODE_TOOLS];
+}
+
+export function getExecutionModeTools(normalModeTools: string[]): string[] {
+	return [...new Set([...normalModeTools, ...EXEC_MODE_PLAN_TOOLS])];
 }
 
 export interface TodoItem {

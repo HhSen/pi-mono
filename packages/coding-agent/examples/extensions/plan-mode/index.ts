@@ -15,28 +15,23 @@
 import type { ExtensionAPI, ExtensionContext } from "@mariozechner/pi-coding-agent";
 import { Key } from "@mariozechner/pi-tui";
 import { Type } from "@sinclair/typebox";
-import { isSafeCommand, type TodoItem } from "./utils.js";
+import {
+	DEFAULT_NORMAL_MODE_TOOLS,
+	getExecutionModeTools,
+	getNormalModeTools,
+	isSafeCommand,
+	type TodoItem,
+} from "./utils.js";
 
 // Tools
 const PLAN_MODE_TOOLS = ["read", "bash", "grep", "find", "ls", "questionnaire", "plan_add_todo", "plan_remove_todo"];
-const EXEC_MODE_TOOLS = [
-	"read",
-	"bash",
-	"edit",
-	"write",
-	"grep",
-	"find",
-	"ls",
-	"plan_complete_todo",
-	"plan_remove_todo",
-];
-const NORMAL_MODE_TOOLS = ["read", "bash", "edit", "write"];
 
 export default function planModeExtension(pi: ExtensionAPI): void {
 	let planModeEnabled = false;
 	let executionMode = false;
 	let todoItems: TodoItem[] = [];
 	let nextStep = 1;
+	let normalModeTools = [...DEFAULT_NORMAL_MODE_TOOLS];
 
 	pi.registerFlag("plan", {
 		description: "Start in plan mode (read-only exploration)",
@@ -71,7 +66,19 @@ export default function planModeExtension(pi: ExtensionAPI): void {
 		}
 	}
 
+	function captureNormalModeTools(): void {
+		normalModeTools = getNormalModeTools(pi.getActiveTools());
+	}
+
+	function getExecutionTools(): string[] {
+		return getExecutionModeTools(normalModeTools);
+	}
+
 	function togglePlanMode(ctx: ExtensionContext): void {
+		if (!planModeEnabled) {
+			captureNormalModeTools();
+		}
+
 		planModeEnabled = !planModeEnabled;
 		executionMode = false;
 		todoItems = [];
@@ -81,7 +88,7 @@ export default function planModeExtension(pi: ExtensionAPI): void {
 			pi.setActiveTools(PLAN_MODE_TOOLS);
 			ctx.ui.notify(`Plan mode enabled. Tools: ${PLAN_MODE_TOOLS.join(", ")}`);
 		} else {
-			pi.setActiveTools(NORMAL_MODE_TOOLS);
+			pi.setActiveTools(normalModeTools);
 			ctx.ui.notify("Plan mode disabled. Full access restored.");
 		}
 		updateStatus(ctx);
@@ -317,7 +324,7 @@ After completing a step, complete todo before moving to the next.`,
 				executionMode = false;
 				todoItems = [];
 				nextStep = 1;
-				pi.setActiveTools(NORMAL_MODE_TOOLS);
+				pi.setActiveTools(normalModeTools);
 				updateStatus(ctx);
 				persistState();
 			}
@@ -348,7 +355,7 @@ After completing a step, complete todo before moving to the next.`,
 		if (choice?.startsWith("Execute")) {
 			planModeEnabled = false;
 			executionMode = todoItems.length > 0;
-			pi.setActiveTools(executionMode ? EXEC_MODE_TOOLS : NORMAL_MODE_TOOLS);
+			pi.setActiveTools(executionMode ? getExecutionTools() : normalModeTools);
 			updateStatus(ctx);
 
 			const execMessage =
@@ -389,10 +396,14 @@ After completing a step, complete todo before moving to the next.`,
 			nextStep = planModeEntry.data.nextStep ?? todoItems.length + 1;
 		}
 
+		captureNormalModeTools();
+
 		if (planModeEnabled) {
 			pi.setActiveTools(PLAN_MODE_TOOLS);
 		} else if (executionMode) {
-			pi.setActiveTools(EXEC_MODE_TOOLS);
+			pi.setActiveTools(getExecutionTools());
+		} else {
+			pi.setActiveTools(normalModeTools);
 		}
 		updateStatus(ctx);
 	});

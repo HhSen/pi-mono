@@ -36,7 +36,9 @@ packages/coding-agent/binaries/
 todo.md
 plans/
 .pi/
-
+.pi/hf-sessions/
+.pi/hf-sessions-backup/
+collect.sh
 
 # AI 
 **/AGENTS.md
